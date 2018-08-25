@@ -1,0 +1,16 @@
+{
+  "name": "educacion-basica-services",
+  "version": "0.0.1",
+  "description": "Servicios de persistencia de datos (mongo)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ccarreno",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.8"
+  }
+}
