@@ -12,5 +12,13 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "mongoose": "^5.2.8"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccarreno/educacion-basica-services.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ccarreno/educacion-basica-services/issues"
+  },
+  "homepage": "https://github.com/ccarreno/educacion-basica-services#readme"
 }
