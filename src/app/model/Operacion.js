@@ -5,6 +5,7 @@ mongoose.connect('mongodb://localhost:27017/educacion-basica',
 
 var operacionSchema = mongoose.Schema({
   index: { type: Number , required:true },
+  usuario: { type:String , required:true },
   tipo_operacion: { type:String , required:true },
   valorA: { type: Number , required:true },
   valorB: { type: Number , required:true },
@@ -14,7 +15,8 @@ var operacionSchema = mongoose.Schema({
   resuelto: { type: Boolean, required:true },
   titulo: { type: String , required:true },
   errorCalculo: { type: Boolean },
-  fecha: { type: Date, default:Date.now }
+  fecha: { type: Date, default:Date.now },
+  bitacoraId: { type: mongoose.Schema.ObjectId , required:true }
 });
 
 

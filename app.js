@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 
 var tipoOperacion = require('./src/app/model/TipoOperacion');
 var operacion = require('./src/app/model/Operacion');
+var bitacoraOperacion = require('./src/app/model/BitacoraOperacion');
 var imagen = require('./src/app/model/Imagen');
 
 app.use(bodyParser.json());
@@ -38,10 +39,13 @@ router.get('/', function(req, res) {
   res.write('GET ' + preffix + 'tipo-operaciones\n');
   res.write('GET ' + preffix + 'imagenes\n');
   res.write('GET ' + preffix + 'operaciones/existen/:tipo-operacion/:fecha   ejemplo: ' + preffix + 'operaciones/suma/2018-08-25\n');
-  res.write('POST ' + preffix + 'operaciones   ejemplo: ' + preffix + 'operaciones\n');
+  res.write('POST ' + preffix + 'operaciones + body   ejemplo: ' + preffix + 'operaciones\n');
   res.write('GET ' + preffix + 'operaciones/:tipo-operacion/:fecha   ejemplo: ' + preffix + 'operaciones/suma/2018-08-25\n');
   res.write('GET ' + preffix + 'operaciones/:id   ejemplo: ' + preffix + 'operaciones/5b874a4aa77e5933ec324133\n');
   res.write('PUT ' + preffix + 'operaciones/:id + body   ejemplo: ' + preffix + 'operaciones/5b874a4aa77e5933ec324133\n');
+  res.write('GET ' + preffix + 'bitacora-operacion/existe/:tipo_operacion/:usuario/:fecha   ejemplo: ' + preffix + 'bitacora-operacion/existe/suma/dcarreno/2018-08-25\n');
+  res.write('POST ' + preffix + 'bitacora-operacion + body   ejemplo: ' + preffix + 'bitacora-operacion\n');
+  res.write('PUT ' + preffix + 'bitacora-operacion/:id + body   ejemplo: ' + preffix + 'bitacora-operacion/5b874a4aa77e5933ec324133\n');
   res.send();
 });
 
@@ -150,6 +154,57 @@ router.put(preffix + 'operaciones/:id', function(req, res) {
   var id = req.params.id;
   var model = req.body;
   operacion.modificarOperacion(id, model, {}, function(err, data) {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    console.log(data);
+    res.json(data);
+  });
+});
+
+router.get(preffix + 'bitacora-operacion/existe/:tipo_operacion/:usuario/:fecha', function(req, res) {
+  console.log("req.params.tipo_operacion=" + req.params.tipo_operacion);
+  console.log("req.params.usuario=" + req.params.usuario);
+  console.log("req.params.fecha=" + req.params.fecha);
+  bitacoraOperacion.listarBitacoraOperaciones(
+    {
+      "usuario": req.params.usuario,
+      "tipo_operacion": req.params.tipo_operacion,
+      "fecha": {
+        "$gte": new Date(req.params.fecha),
+        "$lt": new Date()
+      }
+    }, function(err, data) {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    console.log(data);
+    res.json(data);
+  });
+});
+
+router.post(preffix + 'bitacora-operacion', function(req, res) {
+  //console.log(req);
+  console.log("req.body" + req.body);
+  var model = req.body;
+  bitacoraOperacion.crearBitacoraOperacion(model, function(err, data) {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    console.log(data);
+    res.json(data);
+  });
+});
+
+router.put(preffix + 'bitacora-operacion/:id', function(req, res) {
+  //console.log(req);
+  console.log("req.body" + req.body);
+  var id = req.params.id;
+  var model = req.body;
+  bitacoraOperacion.modificarBitacoraOperacion(id, model, {}, function(err, data) {
     if(err) {
       console.log(err);
       throw err;
