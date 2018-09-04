@@ -7,11 +7,12 @@ var bitacoraOperacionSchema = mongoose.Schema({
   usuario: { type:String , required:true },
   tipo_operacion: { type:String , required:true },
   completado: { type: Boolean, required:true },
-  fecha: { type: Date, default:Date.now }
+  fechaInicio: { type: Date, default:Date.now },
+  fechaFin: { type: Date }
 });
 
 
-var _BitacoraOperacion = mongoose.model('bitacora-operaciones', bitacoraOperacionSchema);
+var _BitacoraOperacion = mongoose.model('bitacora_operaciones', bitacoraOperacionSchema);
 
 module.exports.BitacoraOperacion = _BitacoraOperacion;
 module.exports.listarBitacoraOperaciones = function(query, callback) {
@@ -25,7 +26,8 @@ module.exports.crearBitacoraOperacion = function(model, callback) {
 module.exports.modificarBitacoraOperacion = function(id, model, options, callback) {
   var query = { "_id":id };
   var update = {
-    "completado": model.completado
+    "completado": model.completado,
+    "fechaFin": new Date()
   };
   console.log(query);
   console.log(update);

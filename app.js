@@ -9,6 +9,7 @@ var tipoOperacion = require('./src/app/model/TipoOperacion');
 var operacion = require('./src/app/model/Operacion');
 var bitacoraOperacion = require('./src/app/model/BitacoraOperacion');
 var imagen = require('./src/app/model/Imagen');
+var premio = require('./src/app/model/Premio');
 
 app.use(bodyParser.json());
 
@@ -46,6 +47,8 @@ router.get('/', function(req, res) {
   res.write('GET ' + preffix + 'bitacora-operacion/existe/:tipo_operacion/:usuario/:fecha   ejemplo: ' + preffix + 'bitacora-operacion/existe/suma/dcarreno/2018-08-25\n');
   res.write('POST ' + preffix + 'bitacora-operacion + body   ejemplo: ' + preffix + 'bitacora-operacion\n');
   res.write('PUT ' + preffix + 'bitacora-operacion/:id + body   ejemplo: ' + preffix + 'bitacora-operacion/5b874a4aa77e5933ec324133\n');
+  res.write('GET ' + preffix + 'premio/:fecha   ejemplo: ' + preffix + 'premios/2018-09-09\n');
+  res.write('GET ' + preffix + 'premio   ejemplo: ' + preffix + 'premio\n');
   res.send();
 });
 
@@ -171,7 +174,30 @@ router.get(preffix + 'bitacora-operacion/existe/:tipo_operacion/:usuario/:fecha'
     {
       "usuario": req.params.usuario,
       "tipo_operacion": req.params.tipo_operacion,
-      "fecha": {
+      "fechaInicio": {
+        "$gte": new Date(req.params.fecha),
+        "$lt": new Date()
+      }
+    }, function(err, data) {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    console.log(data);
+    res.json(data);
+  });
+});
+
+router.get(preffix + 'bitacora-operacion/completado/:tipo_operacion/:usuario/:fecha', function(req, res) {
+  console.log("req.params.tipo_operacion=" + req.params.tipo_operacion);
+  console.log("req.params.usuario=" + req.params.usuario);
+  console.log("req.params.fecha=" + req.params.fecha);
+  bitacoraOperacion.listarBitacoraOperaciones(
+    {
+      "usuario": req.params.usuario,
+      "tipo_operacion": req.params.tipo_operacion,
+      "completado": true,
+      "fechaInicio": {
         "$gte": new Date(req.params.fecha),
         "$lt": new Date()
       }
@@ -205,6 +231,40 @@ router.put(preffix + 'bitacora-operacion/:id', function(req, res) {
   var id = req.params.id;
   var model = req.body;
   bitacoraOperacion.modificarBitacoraOperacion(id, model, {}, function(err, data) {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    console.log(data);
+    res.json(data);
+  });
+});
+
+router.get(preffix + 'premio', function(req, res) {
+  premio.listarPremios(
+    {
+      "visto": false
+    }, 1, function(err, data) {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    console.log(data);
+    res.json(data);
+  });
+});
+
+router.get(preffix + 'premio/:fecha', function(req, res) {
+  var fecha = req.params.fecha;
+  console.log("req.params.fecha" + fecha);
+  premio.listarPremios(
+    {
+      "visto": false,
+      "ver": {
+        "$eq": new Date(fecha)
+      }
+
+    }, 1, function(err, data) {
     if(err) {
       console.log(err);
       throw err;
