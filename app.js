@@ -46,6 +46,7 @@ router.get(preffix, function(req, res) {
   res.write('PUT ' + preffix + 'operaciones/:id + body   ejemplo: ' + preffix + 'operaciones/5b874a4aa77e5933ec324133\n');
   res.write('GET ' + preffix + 'bitacora-operacion/existe/:tipo_operacion/:usuario/:fecha   ejemplo: ' + preffix + 'bitacora-operacion/existe/suma/dcarreno/2018-08-25\n');
   res.write('GET ' + preffix + 'bitacora-operacion/existen/:usuario/:fecha   ejemplo: ' + preffix + 'bitacora-operacion/existen/dcarreno/2019-01-22\n');
+  res.write('GET ' + preffix + 'bitacora-operacion/completado/:tipo_operacion/:usuario/:fecha   ejemplo: ' + preffix + 'bitacora-operacion/completado/sumas/dcarreno/2019-01-22\n');
   res.write('POST ' + preffix + 'bitacora-operacion + body   ejemplo: ' + preffix + 'bitacora-operacion\n');
   res.write('PUT ' + preffix + 'bitacora-operacion/:id + body   ejemplo: ' + preffix + 'bitacora-operacion/5b874a4aa77e5933ec324133\n');
   res.write('GET ' + preffix + 'premio/:fecha   ejemplo: ' + preffix + 'premios/2018-09-09\n');
