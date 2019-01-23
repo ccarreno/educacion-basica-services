@@ -36,7 +36,7 @@ var preffix = "/educacion-basica-ws/api/v1/";
 
 var router = express.Router();
 
-router.get('/', function(req, res) {
+router.get(preffix, function(req, res) {
   res.write('GET ' + preffix + 'tipo-operaciones\n');
   res.write('GET ' + preffix + 'imagenes\n');
   res.write('GET ' + preffix + 'operaciones/existen/:tipo-operacion/:fecha   ejemplo: ' + preffix + 'operaciones/suma/2018-08-25\n');
@@ -45,6 +45,7 @@ router.get('/', function(req, res) {
   res.write('GET ' + preffix + 'operaciones/:id   ejemplo: ' + preffix + 'operaciones/5b874a4aa77e5933ec324133\n');
   res.write('PUT ' + preffix + 'operaciones/:id + body   ejemplo: ' + preffix + 'operaciones/5b874a4aa77e5933ec324133\n');
   res.write('GET ' + preffix + 'bitacora-operacion/existe/:tipo_operacion/:usuario/:fecha   ejemplo: ' + preffix + 'bitacora-operacion/existe/suma/dcarreno/2018-08-25\n');
+  res.write('GET ' + preffix + 'bitacora-operacion/existen/:usuario/:fecha   ejemplo: ' + preffix + 'bitacora-operacion/existen/dcarreno/2019-01-22\n');
   res.write('POST ' + preffix + 'bitacora-operacion + body   ejemplo: ' + preffix + 'bitacora-operacion\n');
   res.write('PUT ' + preffix + 'bitacora-operacion/:id + body   ejemplo: ' + preffix + 'bitacora-operacion/5b874a4aa77e5933ec324133\n');
   res.write('GET ' + preffix + 'premio/:fecha   ejemplo: ' + preffix + 'premios/2018-09-09\n');
@@ -183,6 +184,35 @@ router.get(preffix + 'bitacora-operacion/existe/:tipo_operacion/:usuario/:fecha'
       console.log(err);
       throw err;
     }
+    console.log(data);
+    res.json(data);
+  });
+});
+
+router.get(preffix + 'bitacora-operacion/existen/:usuario/:fecha', function(req, res) {
+  console.log("req.params.usuario=" + req.params.usuario);
+  console.log("req.params.fecha=" + req.params.fecha);
+  bitacoraOperacion.listarBitacoraOperaciones(
+    {
+      "usuario": req.params.usuario,
+      "fechaInicio": {
+        "$gte": new Date(req.params.fecha),
+        "$lt": new Date()
+      }
+    }, function(err, data) {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    //console.log(data);
+    // var completados = 0;
+    // data.forEach(elem => {
+    //   console.log(elem);
+    //   if(elem.completado) {
+    //     ++completados;
+    //   }
+    //   elem["recibePremio"] = completados >= 2 ? true : false;
+    // });
     console.log(data);
     res.json(data);
   });

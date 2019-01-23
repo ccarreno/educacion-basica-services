@@ -5,7 +5,11 @@ mongoose.connect('mongodb://localhost:27017/educacion-basica',
 
 var imagenSchema = mongoose.Schema({
   nombreArchivo: { type:String , required:true },
-  categoria: { type:String , required:true }
+  categoria: {
+    _id: { type:Number , required:true },
+    descripcion: { type:String , required:true }
+  },
+  texto: { type:String , required:true },
 });
 
 

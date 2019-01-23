@@ -11,9 +11,11 @@ var operacionSchema = mongoose.Schema({
   valorB: { type: Number , required:true },
   resultadoUsuario: { type: Number },
   resultadoOK: { type: Number , required:true },
-  randomImageURL: { type: String , required:true },
+  imagen: { 
+    nombreArchivo: {type: String , required:true} ,
+    texto: { type: String , required:true }
+  },
   resuelto: { type: Boolean, required:true },
-  titulo: { type: String , required:true },
   errorCalculo: { type: Boolean },
   fecha: { type: Date, default:Date.now },
   bitacoraId: { type: mongoose.Schema.ObjectId , required:true }
